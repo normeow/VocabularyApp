@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">VocabularyApp</string>
+    <string name="add_new_item">Add new Item</string>
+    <string name="action_settings">Settings</string>
+    <string name="btn_add">Add</string>
+    <string name="clear_edit_txt">Clear fields</string>
+    <string name="open_vocabulary">Open whole vocabulary list</string>
+    <string name="wind_pager">Wind this</string>
+    <string name="input_english">Input english word or phrase</string>
+    <string name="input_translation">Input the translation</string>
+    <string name="edit_item">Edit item</string>
+    <string name="action_search">Search</string>
+
+</resources>
