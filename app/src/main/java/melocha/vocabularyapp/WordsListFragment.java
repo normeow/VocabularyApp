@@ -34,19 +34,17 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.wordslist_fragment, container, false);
         mListView = (ListView)view.findViewById(R.id.wordsList);
-        changeList();
+        updateList();
         registerForContextMenu(mListView);
         return view;
     }
 
-    public void changeList(){
+    public void updateList(){
         pairs = MainActivity.getAllVocabularyPairs();
         strings = MainActivity.getAllVocabularyStrings();
         aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, strings);
         mListView.setAdapter(aa);
     }
-
-
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -62,7 +60,7 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
         {
             case MENU_DELETE:
                 MainActivity.db.deleteItem(pairs.get(id));
-                changeList();
+                updateList();
                 onWordsChangeListener.onWordsChanged();
                 break;
             case MENU_EDIT:
@@ -74,7 +72,7 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
 
                 android.support.v4.app.DialogFragment dialog = EditFragmentDialog.newInstance(pairs.get(id));
                 dialog.show(getFragmentManager(),"editFragmentShow");
-                changeList();
+                updateList();
                 break;
         }
         return super.onContextItemSelected(item);

@@ -1,9 +1,14 @@
 package melocha.vocabularyapp;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -12,15 +17,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements SearchFragment.SearchFragmentListener, AddFragment.OnBtnWordsListListener, AddFragment.OnWordsChangeListener, EditFragmentDialog.EditDialogListener {
+public class MainActivity extends AppCompatActivity implements SearchFragment.SearchFragmentListener, AddFragment.OnBtnWordsListListener, AddFragment.OnWordsChangeListener, EditFragmentDialog.EditDialogListener {
     //todo поиск слов и сравнение в выпадающем листе
 
     private android.support.v4.app.FragmentManager fragmentManager;
-    private FrameLayout mTopFragmentFrame, mLowFragmentFrame;
-    private MainFragment mainFragment;
     public static MySQLHelper db;
     private static ArrayList<EngRusPair> allVocabularyPairs;
     private static ArrayList<String> allVocabularyStrings;
+    private TabLayout tl;
+    private ViewPager vp;
 
 
     public static ArrayList<EngRusPair> getAllVocabularyPairs() {
@@ -45,12 +50,33 @@ public class MainActivity extends ActionBarActivity implements SearchFragment.Se
         db = new MySQLHelper(this);
         allVocabularyPairs = db.getAllPairs();
         allVocabularyStrings =  pairsToString(allVocabularyPairs);
+
         setContentView(R.layout.activity_main);
-        fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        mainFragment = new MainFragment();
-        fragmentTransaction.add(R.id.mainFrame, mainFragment).addToBackStack(null);
-        fragmentTransaction.commit();
+        vp = (ViewPager)findViewById(R.id.viewPager);
+        tl = (TabLayout)findViewById(R.id.tl);
+        vp.setAdapter(new FragmentPagerAdapter(this.getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                if (position == 0)
+                    return new AddFragment();
+                else
+                    return new WordsListFragment();
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                if(position == 0)
+                    return getResources().getString(R.string.addMode);
+                else
+                    return getResources().getString(R.string.viewMode);
+            }
+        });
+        tl.setupWithViewPager(vp);
 
     }
 
@@ -105,9 +131,6 @@ public class MainActivity extends ActionBarActivity implements SearchFragment.Se
 
     @Override
     public void onBtnWordsListClick() {
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.mainFrame, new WordsListFragment()).addToBackStack(null);
-        fragmentTransaction.commit();
     }
 
     @Override
