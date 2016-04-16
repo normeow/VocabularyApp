@@ -12,7 +12,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements SearchFragment.SearchFragmentListener, TopFragment.OnBtnWordsListListener, LowFragment.OnFullWindClick, TopFragment.OnWordsChangeListener, EditFragmentDialog.EditDialogListener {
+public class MainActivity extends ActionBarActivity implements SearchFragment.SearchFragmentListener, AddFragment.OnBtnWordsListListener, AddFragment.OnWordsChangeListener, EditFragmentDialog.EditDialogListener {
     //todo поиск слов и сравнение в выпадающем листе
 
     private android.support.v4.app.FragmentManager fragmentManager;
@@ -111,13 +111,8 @@ public class MainActivity extends ActionBarActivity implements SearchFragment.Se
     }
 
     @Override
-    public void onFullWind() {
-
-    }
-
-    @Override
     public void onWordsChanged() {
-        mainFragment.mLowFragment.resetAdapter();
+
     }
 
     @Override

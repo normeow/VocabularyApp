@@ -13,16 +13,13 @@ import android.view.ViewGroup;
  */
 public class MainFragment extends android.support.v4.app.Fragment {
 
-    public LowFragment mLowFragment;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_fragment, container, false);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        mLowFragment = new LowFragment();
-        fragmentTransaction.add(R.id.top_fragment_container, new TopFragment());
-        fragmentTransaction.add(R.id.low_fragment_container,  mLowFragment);
+        fragmentTransaction.add(R.id.top_fragment_container, new AddFragment());
         fragmentTransaction.commit();
         return view;
     }

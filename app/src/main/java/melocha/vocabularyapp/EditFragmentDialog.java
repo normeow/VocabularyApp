@@ -14,10 +14,10 @@ import android.widget.TextView;
  * Created by Admin on 19.04.2015.
  */
 public class EditFragmentDialog extends DialogFragment {
-    TopFragment.OnWordsChangeListener onWordsChangeListener;
+    AddFragment.OnWordsChangeListener onWordsChangeListener;
     public interface EditDialogListener{
-        public void onDialogPositiveClick(EngRusPair pair);
-        public void onDialogNegativeClick();
+        void onDialogPositiveClick(EngRusPair pair);
+       void onDialogNegativeClick();
     }
 
     String engWord;
@@ -32,7 +32,7 @@ public class EditFragmentDialog extends DialogFragment {
         Bundle bundle = new Bundle();
         //todo передавать экземпляр класса целиком, EngRusWord наследует Parcelable
         bundle.putString("EngWord", pair.getEngWord());
-        bundle.putString("RusWords", pair.rusWordsToString());
+        bundle.putString("RusWords", pair.getRusWord());
         bundle.putInt("Id", pair.getId());
         dialog.setArguments(bundle);
         return dialog;
@@ -89,7 +89,7 @@ public class EditFragmentDialog extends DialogFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        onWordsChangeListener = (TopFragment.OnWordsChangeListener)activity;
+        onWordsChangeListener = (AddFragment.OnWordsChangeListener)activity;
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
             mListener = (EditDialogListener) activity;

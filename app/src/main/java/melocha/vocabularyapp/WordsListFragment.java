@@ -27,7 +27,7 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
     final int MENU_DELETE = 0;
     final int MENU_EDIT = 1;
 
-    TopFragment.OnWordsChangeListener onWordsChangeListener;
+    AddFragment.OnWordsChangeListener onWordsChangeListener;
 
     @Nullable
     @Override
@@ -83,6 +83,6 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        onWordsChangeListener = (TopFragment.OnWordsChangeListener)activity;
+        onWordsChangeListener = (AddFragment.OnWordsChangeListener)activity;
     }
 }

@@ -6,25 +6,22 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Created by Admin on 12.03.2015.
- */
 public class EngRusPair implements Parcelable{
     private int id;
     private String engWord;
-    private ArrayList<String> rusWords;
+    private String rusWord;
 
     public  EngRusPair(){}
-    public  EngRusPair(String engString, ArrayList<String> rusStrings){
+    public  EngRusPair(String engWord,String rusWord){
         super();
-        this.engWord = engString;
-        this.rusWords = rusStrings;
+        this.engWord = engWord;
+        this.rusWord = rusWord;
     }
 
-    public  EngRusPair(String engString, String rusStrings, int id){
+    public  EngRusPair(String engString, String rusWord, int id){
         super();
         this.engWord = engString;
-        this.rusWords =  new ArrayList<String>(Arrays.asList(rusStrings.trim().split("[;]+")));
+        this.rusWord = rusWord;
         this.id = id;
     }
 
@@ -42,37 +39,27 @@ public class EngRusPair implements Parcelable{
         this.id = id;
     }
 
-    public void setRusWords(ArrayList<String> rusWords) {
-        this.rusWords = rusWords;
+    public void setRusWord(String rusWord) {
+        this.rusWord = rusWord;
     }
 
-    public ArrayList<String> getRusWords() {
-        return rusWords;
+    public String getRusWord() {
+        return rusWord;
     }
 
     @Override
     public String toString() {
-        String str = engWord + " - ";
-        for (int i = 0; i < rusWords.size(); i++){
-            str += rusWords.get(i) + "; ";
-        }
-        return str;
-    }
-
-    public String rusWordsToString(){
-        String str = new String();
-        for (int i = 0; i < rusWords.size(); i++){
-            str += rusWords.get(i) + "; ";
-        }
+        String str = engWord + " - " + rusWord;
         return str;
     }
 
 
-    //todo parcelable
+
+    //PARCELABLE
 
     private EngRusPair(Parcel source){
         this.id = source.readInt();
-        source.readStringList(this.rusWords);
+        this.rusWord = source.readString();
         this.engWord = source.readString();
     }
 
@@ -85,7 +72,7 @@ public class EngRusPair implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(engWord);
-        dest.writeStringList(rusWords);
+        dest.writeString(rusWord);
     }
 
     public static final Creator<EngRusPair> CREATOR

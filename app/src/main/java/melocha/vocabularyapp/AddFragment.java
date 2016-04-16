@@ -9,51 +9,41 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-/**
- * Created by Admin on 16.03.2015.
- */
-public class TopFragment extends android.support.v4.app.Fragment {
+public class AddFragment extends android.support.v4.app.Fragment {
 
     public interface OnBtnWordsListListener{
-        public void onBtnWordsListClick();
+        void onBtnWordsListClick();
     }
 
     public  interface OnWordsChangeListener {
-        public void onWordsChanged();
+        void onWordsChanged();
     }
 
     private Button addBtn;
     private Button clearBtn;
-    private Button openWholeVocabularyBtn;
-    private EditText engTxt;
-    private EditText rusTxt;
+    private EditText engEditText;
+    private EditText rusEditText;
 
     OnBtnWordsListListener onBtnWordsListListener;
     OnWordsChangeListener onBtnAddClickListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.top_fragment, container, false);
-        engTxt = (EditText)view.findViewById(R.id.engWordEdiTxt);
-        rusTxt = (EditText)view.findViewById(R.id.rusWordEdiTxt);
-        openWholeVocabularyBtn = (Button)view.findViewById(R.id.openVocabularyBtn);
+        View view = inflater.inflate(R.layout.add_fragment, container, false);
+        engEditText = (EditText)view.findViewById(R.id.engWordEdiTxt);
+        rusEditText = (EditText)view.findViewById(R.id.rusWordEdiTxt);
         addBtn = (Button)view.findViewById(R.id.btnAddItem);
         clearBtn = (Button)view.findViewById(R.id.btnClear);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String eTxt = engTxt.getText().toString();
-                String rTxt = rusTxt.getText().toString();
-                //todo использовать новый конструктор и не сплитить непосредственно тут
-                ArrayList<String> rusWords = new ArrayList<String>(Arrays.asList(rTxt.trim().split("[;]+")));
+                String eTxt = engEditText.getText().toString();
+                String rTxt = rusEditText.getText().toString();
                 if (!(rTxt.isEmpty() || eTxt.isEmpty())) {
-                    EngRusPair engRusPair = new EngRusPair(eTxt, rusWords);
+                    EngRusPair engRusPair = new EngRusPair(eTxt, rTxt);
                     MainActivity.db.addEngRusPair(engRusPair);
-                    rusTxt.setText("");
-                    engTxt.setText("");
+                    rusEditText.setText("");
+                    engEditText.setText("");
                     Toast toast = Toast.makeText(getActivity(), "New item successfully added", Toast.LENGTH_SHORT);
                     toast.show();
                     onBtnAddClickListener.onWordsChanged();
@@ -68,19 +58,11 @@ public class TopFragment extends android.support.v4.app.Fragment {
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rusTxt.setText("");
-                engTxt.setText("");
+                rusEditText.setText("");
+                engEditText.setText("");
             }
         });
 
-        openWholeVocabularyBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBtnWordsListListener.onBtnWordsListClick();
-
-
-            }
-        });
         return view;
     }
 
