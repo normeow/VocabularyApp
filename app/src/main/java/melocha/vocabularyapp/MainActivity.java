@@ -14,11 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements SearchFragment.SearchFragmentListener, AddFragment.OnBtnWordsListListener, AddFragment.OnWordsChangeListener, EditFragmentDialog.EditDialogListener {
+public class MainActivity extends AppCompatActivity implements AddFragment.OnBtnWordsListListener, AddFragment.OnWordsChangeListener, EditFragmentDialog.EditDialogListener {
     //todo поиск слов и сравнение в выпадающем листе
 
     private android.support.v4.app.FragmentManager fragmentManager;
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.Se
         });
         tl.setupWithViewPager(vp);
         Log.v(TAG, getResources().getConfiguration().locale.toString());
+        setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.tb));
 
     }
 
@@ -104,37 +106,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.Se
         }
         return res;
     }
-
-  @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        switch (id){
-            case R.id.action_search:
-                //todo Search
-                openSearch(null);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void openSearch(ArrayList<EngRusPair> arrayList){
-        DialogFragment dialog = SearchFragment.newInstance(arrayList);
-        dialog.show(getSupportFragmentManager(), "SearchFragment");
-    }
-
 
     @Override
     public void onBtnWordsListClick() {
@@ -157,12 +128,5 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.Se
     public void onDialogNegativeClick() {
 
     }
-    @Override
-    public void onDialogPositiveClockListener(String searchString) {
-        //todo search only in eng-rus table ??
-        ArrayList<EngRusPair> list = new ArrayList<EngRusPair>();
-        list.add(new EngRusPair("sample", "sample"));
 
-        openSearch(list);
-    }
 }
