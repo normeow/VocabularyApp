@@ -1,6 +1,7 @@
 package melocha.vocabularyapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.ContextMenu;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  */
 public class WordsListFragment extends android.support.v4.app.Fragment {
 
-    private ArrayAdapter<String> aa;
+    private PairAdapter aa;
     private ListView mListView;
     private ArrayList<EngRusPair> pairs;
     private ArrayList<String> strings;
@@ -42,7 +43,7 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
     public void updateList(){
         pairs = MainActivity.getAllVocabularyPairs();
         strings = MainActivity.getAllVocabularyStrings();
-        aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, strings);
+        aa = new PairAdapter(getActivity(), android.R.layout.simple_list_item_2, pairs);
         mListView.setAdapter(aa);
     }
 
@@ -64,12 +65,6 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
                 onWordsChangeListener.onWordsChanged();
                 break;
             case MENU_EDIT:
-
-                //todo EDIT item
-               // Bundle bundle = new Bundle();
-               // bundle.putString("EngWord", pairs.get(id).getEngWord());
-               // bundle.putStringArrayList("RusWordsList", pairs.get(id).getRusWords());
-
                 android.support.v4.app.DialogFragment dialog = EditFragmentDialog.newInstance(pairs.get(id));
                 dialog.show(getFragmentManager(),"editFragmentShow");
                 updateList();

@@ -55,11 +55,9 @@ public class MySQLHelper extends SQLiteOpenHelper {
     public  void addEngRusPair(EngRusPair engRusPair){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        //если таблица уже задержит такое англ слова - спросить о перезаписи
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_ENG, engRusPair.getEngWord());
-        contentValues.put(KEY_RUS, engRusPair.getEngWord());
-        //int id = Integer.parseInt(String.valueOf(db.insert(NAME_TABLE, null, contentValues)));
+        contentValues.put(KEY_RUS, engRusPair.getRusWord());
         db.insert(NAME_TABLE, null, contentValues);
         db.close();
         Log.d("addEngRusPair : ", engRusPair.toString());

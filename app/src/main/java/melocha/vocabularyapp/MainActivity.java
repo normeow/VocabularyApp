@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -26,6 +27,9 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.Se
     private static ArrayList<String> allVocabularyStrings;
     private TabLayout tl;
     private ViewPager vp;
+    private AddFragment addFragment;
+    private WordsListFragment wordsListFragment;
+    private static final String TAG = "MainActivity";
 
 
     public static ArrayList<EngRusPair> getAllVocabularyPairs() {
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.Se
         return pairsToString(allVocabularyPairs);
     }
 
-    public  static int getCountPairs(){
+    public static int getCountPairs(){
         allVocabularyStrings = getAllVocabularyStrings();
         return allVocabularyStrings.size();
     }
@@ -50,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.Se
         db = new MySQLHelper(this);
         allVocabularyPairs = db.getAllPairs();
         allVocabularyStrings =  pairsToString(allVocabularyPairs);
-
+        addFragment = new AddFragment();;
+        wordsListFragment = new WordsListFragment();
         setContentView(R.layout.activity_main);
         vp = (ViewPager)findViewById(R.id.viewPager);
         tl = (TabLayout)findViewById(R.id.tl);
@@ -58,9 +63,10 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.Se
             @Override
             public Fragment getItem(int position) {
                 if (position == 0)
-                    return new AddFragment();
-                else
-                    return new WordsListFragment();
+                    return addFragment;
+                else {
+                    return wordsListFragment;
+                }
             }
 
             @Override
@@ -77,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.Se
             }
         });
         tl.setupWithViewPager(vp);
+        Log.v(TAG, getResources().getConfiguration().locale.toString());
 
     }
 
@@ -135,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.Se
 
     @Override
     public void onWordsChanged() {
-
+        wordsListFragment.updateList();
     }
 
     @Override
@@ -150,28 +157,11 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.Se
     public void onDialogNegativeClick() {
 
     }
-
-    //todo isRussian
-    public static boolean isRussian(String string){
-        return true;
-    }
-
-    //todo isEnglish
-    public static boolean isEnglish(String string){
-        return true;
-    }
-
     @Override
     public void onDialogPositiveClockListener(String searchString) {
         //todo search only in eng-rus table ??
         ArrayList<EngRusPair> list = new ArrayList<EngRusPair>();
-        int i = 0;
-        for (String t : allVocabularyStrings){
-            if (t.toLowerCase().contains(searchString.toLowerCase())) {
-                list.add(allVocabularyPairs.get(i));
-            }
-            i += 1;
-        }
+        list.add(new EngRusPair("sample", "sample"));
 
         openSearch(list);
     }
