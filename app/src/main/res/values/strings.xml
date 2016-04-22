@@ -10,5 +10,7 @@
     <string name="edit_item">Edit item</string>
     <string name="addMode">Add</string>
     <string name="viewMode">View</string>
-
+    <string name="action_search">Search</string>
+    <string name="okBtn">OK</string>
+    <string name="cancelBtn">Cancel</string>
 </resources>

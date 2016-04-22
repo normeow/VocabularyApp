@@ -23,7 +23,6 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
     private PairAdapter aa;
     private ListView mListView;
     private ArrayList<EngRusPair> pairs;
-    private ArrayList<String> strings;
 
     final int MENU_DELETE = 0;
     final int MENU_EDIT = 1;
@@ -42,7 +41,6 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
 
     public void updateList(){
         pairs = MainActivity.getAllVocabularyPairs();
-        strings = MainActivity.getAllVocabularyStrings();
         aa = new PairAdapter(getActivity(), android.R.layout.simple_list_item_2, pairs);
         mListView.setAdapter(aa);
     }

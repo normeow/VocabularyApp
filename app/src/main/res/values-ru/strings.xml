@@ -10,5 +10,8 @@
     <string name="edit_item">Редактировать</string>
     <string name="addMode">Добавление</string>
     <string name="viewMode">Просмотр</string>
+    <string name="action_search">Поиск</string>
 
+    <string name="okBtn">Ок</string>
+    <string name="cancelBtn">Отмена</string>
 </resources>

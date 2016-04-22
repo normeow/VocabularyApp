@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,27 +35,13 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
 
 
     public static ArrayList<EngRusPair> getAllVocabularyPairs() {
-        allVocabularyPairs = db.getAllPairs();
-        return allVocabularyPairs;
+        return db.getAllPairs();
     }
-
-    public static ArrayList<String> getAllVocabularyStrings() {
-        allVocabularyPairs = getAllVocabularyPairs();
-        return pairsToString(allVocabularyPairs);
-    }
-
-    public static int getCountPairs(){
-        allVocabularyStrings = getAllVocabularyStrings();
-        return allVocabularyStrings.size();
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = new MySQLHelper(this);
-        allVocabularyPairs = db.getAllPairs();
-        allVocabularyStrings =  pairsToString(allVocabularyPairs);
         addFragment = new AddFragment();;
         wordsListFragment = new WordsListFragment();
         setContentView(R.layout.activity_main);

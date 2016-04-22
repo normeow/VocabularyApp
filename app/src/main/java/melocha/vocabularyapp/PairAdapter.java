@@ -22,6 +22,7 @@ public class PairAdapter extends ArrayAdapter<EngRusPair> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
        EngRusPair item = getItem(position);
+        //// TODO: custom list item with edit and delete buttons coz' context menu is bad idea 
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_2, null);
         ((TextView)convertView.findViewById(android.R.id.text1)).setText(item.getEngWord());

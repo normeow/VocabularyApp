@@ -30,7 +30,6 @@ public class EditFragmentDialog extends DialogFragment {
     {
         EditFragmentDialog dialog = new EditFragmentDialog();
         Bundle bundle = new Bundle();
-        //todo передавать экземпляр класса целиком, EngRusWord наследует Parcelable
         bundle.putString("EngWord", pair.getEngWord());
         bundle.putString("RusWords", pair.getRusWord());
         bundle.putInt("Id", pair.getId());
@@ -56,14 +55,14 @@ public class EditFragmentDialog extends DialogFragment {
 
         builder.setMessage(R.string.edit_item)
                 .setView(view)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getContext().getResources().getString(R.string.okBtn), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mListener.onDialogPositiveClick(new EngRusPair(engTV.getText().toString(), rusTV.getText().toString(), id));
 
                     }
                 })
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getContext().getResources().getString(R.string.cancelBtn), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
