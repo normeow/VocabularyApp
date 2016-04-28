@@ -20,11 +20,11 @@ public class EditFragmentDialog extends DialogFragment {
        void onDialogNegativeClick();
     }
 
-    String engWord;
-    String rusWords;
-    int id;
-    EditDialogListener mListener;
-    TextView engTV, rusTV;
+    private String engWord;
+    private String rusWords;
+    private int id;
+    private EditDialogListener mListener;
+    private TextView engTV, rusTV;
 
     public  static EditFragmentDialog newInstance(EngRusPair pair)
     {

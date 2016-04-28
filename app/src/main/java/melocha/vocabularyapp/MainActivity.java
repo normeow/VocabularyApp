@@ -1,5 +1,6 @@
 package melocha.vocabularyapp;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
@@ -20,13 +21,11 @@ import android.widget.Toolbar;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements AddFragment.OnBtnWordsListListener, AddFragment.OnWordsChangeListener, EditFragmentDialog.EditDialogListener {
+public class MainActivity extends AppCompatActivity implements AddFragment.OnBtnWordsListListener, AddFragment.OnWordsChangeListener, EditFragmentDialog.EditDialogListener, AddFragment.OnItemAddListener, WordsListFragment.OnWordDeleteListener {
     //todo поиск слов и сравнение в выпадающем листе
-
+    private static  final int NUM_VIEWS = 2;
     private android.support.v4.app.FragmentManager fragmentManager;
-    public static MySQLHelper db;
-    private static ArrayList<EngRusPair> allVocabularyPairs;
-    private static ArrayList<String> allVocabularyStrings;
+    private static MySQLHelper db;
     private TabLayout tl;
     private ViewPager vp;
     private AddFragment addFragment;
@@ -40,13 +39,15 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        db = new MySQLHelper(this);
-        addFragment = new AddFragment();;
-        wordsListFragment = new WordsListFragment();
-        setContentView(R.layout.activity_main);
-        vp = (ViewPager)findViewById(R.id.viewPager);
-        tl = (TabLayout)findViewById(R.id.tl);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+            db = new MySQLHelper(this);
+            addFragment = new AddFragment();
+            ;
+            wordsListFragment = new WordsListFragment();
+
+            vp = (ViewPager) findViewById(R.id.viewPager);
+            tl = (TabLayout) findViewById(R.id.tl);
         vp.setAdapter(new FragmentPagerAdapter(this.getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -59,32 +60,23 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
 
             @Override
             public int getCount() {
-                return 2;
+                return NUM_VIEWS;
             }
 
             @Override
             public CharSequence getPageTitle(int position) {
-                if(position == 0)
+                if (position == 0)
                     return getResources().getString(R.string.addMode);
                 else
                     return getResources().getString(R.string.viewMode);
-            }
+                }
         });
         tl.setupWithViewPager(vp);
         Log.v(TAG, getResources().getConfiguration().locale.toString());
         setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.tb));
-
+        Log.v(TAG, "Created");
     }
 
-    @Override
-    public void onBackPressed() {
-        FragmentManager fm = getSupportFragmentManager();
-        if (fm.getBackStackEntryCount() > 1) {
-            fm.popBackStack();
-        } else {
-            finish();
-        }
-    }
 
     public static ArrayList<String> pairsToString(ArrayList<EngRusPair> pairsArray){
         ArrayList<String> res = new ArrayList<String>();
@@ -116,4 +108,13 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
 
     }
 
+    @Override
+    public void onItemAdd(EngRusPair pair) {
+       db.addEngRusPair(pair);
+    }
+
+    @Override
+    public void onWordDelete(EngRusPair pair) {
+        db.deleteItem(pair);
+    }
 }

@@ -2,8 +2,10 @@ package melocha.vocabularyapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,14 +22,19 @@ import java.util.ArrayList;
  */
 public class WordsListFragment extends android.support.v4.app.Fragment {
 
+    private static final String TAG = "WordsListFragment";
     private PairAdapter aa;
     private ListView mListView;
     private ArrayList<EngRusPair> pairs;
 
-    final int MENU_DELETE = 0;
-    final int MENU_EDIT = 1;
+    private static final int MENU_DELETE = 0;
+    private static final int MENU_EDIT = 1;
 
+    public interface OnWordDeleteListener{
+        void onWordDelete(EngRusPair pair);
+    }
     AddFragment.OnWordsChangeListener onWordsChangeListener;
+    OnWordDeleteListener onWordDeleteListener;
 
     @Nullable
     @Override
@@ -36,8 +43,10 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
         mListView = (ListView)view.findViewById(R.id.wordsList);
         updateList();
         registerForContextMenu(mListView);
+        Log.v(TAG, "onCreateView");
         return view;
     }
+
 
     public void updateList(){
         pairs = MainActivity.getAllVocabularyPairs();
@@ -58,7 +67,7 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
         switch (item.getItemId())
         {
             case MENU_DELETE:
-                MainActivity.db.deleteItem(pairs.get(id));
+                onWordDeleteListener.onWordDelete(pairs.get(id));
                 updateList();
                 onWordsChangeListener.onWordsChanged();
                 break;
@@ -75,5 +84,7 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         onWordsChangeListener = (AddFragment.OnWordsChangeListener)activity;
+        onWordDeleteListener = (OnWordDeleteListener)activity;
+        Log.v(TAG, "onAttach");
     }
 }

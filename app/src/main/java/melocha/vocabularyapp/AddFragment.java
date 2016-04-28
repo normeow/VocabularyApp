@@ -1,7 +1,9 @@
 package melocha.vocabularyapp;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +13,20 @@ import android.widget.Toast;
 
 public class AddFragment extends android.support.v4.app.Fragment {
 
+    private static final String TAG = "AddFragment";
+    private static final String ENG_KEY = "eng";
+    private static final String RUS_KEY = "rus";
     public interface OnBtnWordsListListener{
         void onBtnWordsListClick();
     }
 
     public  interface OnWordsChangeListener {
         void onWordsChanged();
+    }
+
+
+    public interface OnItemAddListener{
+        void onItemAdd(EngRusPair pair);
     }
 
     private Button addBtn;
@@ -26,6 +36,12 @@ public class AddFragment extends android.support.v4.app.Fragment {
 
     OnBtnWordsListListener onBtnWordsListListener;
     OnWordsChangeListener onBtnAddClickListener;
+    OnItemAddListener onItemAddListener;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +50,10 @@ public class AddFragment extends android.support.v4.app.Fragment {
         rusEditText = (EditText)view.findViewById(R.id.rusWordEdiTxt);
         addBtn = (Button)view.findViewById(R.id.btnAddItem);
         clearBtn = (Button)view.findViewById(R.id.btnClear);
+        if (savedInstanceState != null){
+            engEditText.setText(savedInstanceState.getString(ENG_KEY));
+            rusEditText.setText(savedInstanceState.getString(RUS_KEY));
+        }
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,14 +61,13 @@ public class AddFragment extends android.support.v4.app.Fragment {
                 String rTxt = rusEditText.getText().toString();
                 if (!(rTxt.isEmpty() || eTxt.isEmpty())) {
                     EngRusPair engRusPair = new EngRusPair(eTxt, rTxt);
-                    MainActivity.db.addEngRusPair(engRusPair);
+                    onItemAddListener.onItemAdd(engRusPair);
                     rusEditText.setText("");
                     engEditText.setText("");
                     Toast toast = Toast.makeText(getActivity(), "New item successfully added", Toast.LENGTH_SHORT);
                     toast.show();
                     onBtnAddClickListener.onWordsChanged();
-                }
-                else {
+                } else {
                     Toast toast = Toast.makeText(getActivity(), "Fill both fields", Toast.LENGTH_LONG);
                     toast.show();
                 }
@@ -63,13 +82,26 @@ public class AddFragment extends android.support.v4.app.Fragment {
             }
         });
 
+        Log.v(TAG, "onCreateView");
         return view;
     }
+
+
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         onBtnWordsListListener = (OnBtnWordsListListener)activity;
         onBtnAddClickListener = (OnWordsChangeListener)activity;
+        onItemAddListener = (OnItemAddListener)activity;
+        Log.v(TAG, "onAttach");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(ENG_KEY, engEditText.getText().toString());
+        outState.putString(RUS_KEY, rusEditText.getText().toString());
+        Log.v(TAG, "onSaveInstanceState");
+        super.onSaveInstanceState(outState);
     }
 }
