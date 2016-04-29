@@ -13,4 +13,6 @@
     <string name="action_search">Search</string>
     <string name="okBtn">OK</string>
     <string name="cancelBtn">Cancel</string>
+    <string name="toast_added">New item successfully added</string>
+    <string name="toast_fill_both">Fill both fields</string>
 </resources>

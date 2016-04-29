@@ -45,15 +45,13 @@ public class AddFragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.v(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.add_fragment, container, false);
         engEditText = (EditText)view.findViewById(R.id.engWordEdiTxt);
         rusEditText = (EditText)view.findViewById(R.id.rusWordEdiTxt);
         addBtn = (Button)view.findViewById(R.id.btnAddItem);
         clearBtn = (Button)view.findViewById(R.id.btnClear);
-        if (savedInstanceState != null){
-            engEditText.setText(savedInstanceState.getString(ENG_KEY));
-            rusEditText.setText(savedInstanceState.getString(RUS_KEY));
-        }
+
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,11 +62,11 @@ public class AddFragment extends android.support.v4.app.Fragment {
                     onItemAddListener.onItemAdd(engRusPair);
                     rusEditText.setText("");
                     engEditText.setText("");
-                    Toast toast = Toast.makeText(getActivity(), "New item successfully added", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.toast_added), Toast.LENGTH_SHORT);
                     toast.show();
                     onBtnAddClickListener.onWordsChanged();
                 } else {
-                    Toast toast = Toast.makeText(getActivity(), "Fill both fields", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.toast_fill_both), Toast.LENGTH_LONG);
                     toast.show();
                 }
             }
@@ -82,7 +80,6 @@ public class AddFragment extends android.support.v4.app.Fragment {
             }
         });
 
-        Log.v(TAG, "onCreateView");
         return view;
     }
 
@@ -97,11 +94,4 @@ public class AddFragment extends android.support.v4.app.Fragment {
         Log.v(TAG, "onAttach");
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putString(ENG_KEY, engEditText.getText().toString());
-        outState.putString(RUS_KEY, rusEditText.getText().toString());
-        Log.v(TAG, "onSaveInstanceState");
-        super.onSaveInstanceState(outState);
-    }
 }

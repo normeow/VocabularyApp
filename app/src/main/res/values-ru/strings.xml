@@ -14,4 +14,6 @@
 
     <string name="okBtn">Ок</string>
     <string name="cancelBtn">Отмена</string>
+    <string name="toast_added">Элемент усппешно добавлен</string>
+    <string name="toast_fill_both">Заполните оба поля</string>
 </resources>

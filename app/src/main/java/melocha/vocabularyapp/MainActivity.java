@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AddFragment.OnBtnWordsListListener, AddFragment.OnWordsChangeListener, EditFragmentDialog.EditDialogListener, AddFragment.OnItemAddListener, WordsListFragment.OnWordDeleteListener {
     //todo поиск слов и сравнение в выпадающем листе
-    private static  final int NUM_VIEWS = 2;
+    private ArrayList<Fragment> fragmenents;
     private android.support.v4.app.FragmentManager fragmentManager;
     private static MySQLHelper db;
     private TabLayout tl;
@@ -39,28 +39,26 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-            db = new MySQLHelper(this);
-            addFragment = new AddFragment();
-            ;
-            wordsListFragment = new WordsListFragment();
-
-            vp = (ViewPager) findViewById(R.id.viewPager);
-            tl = (TabLayout) findViewById(R.id.tl);
+        Log.v(TAG, "Created");
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        db = new MySQLHelper(this);
+        addFragment = new AddFragment();
+        wordsListFragment = new WordsListFragment();
+        fragmenents = new ArrayList<>();
+        fragmenents.add(addFragment);
+        fragmenents.add(wordsListFragment);
+        vp = (ViewPager) findViewById(R.id.viewPager);
+        tl = (TabLayout) findViewById(R.id.tl);
         vp.setAdapter(new FragmentPagerAdapter(this.getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                if (position == 0)
-                    return addFragment;
-                else {
-                    return wordsListFragment;
-                }
+                return fragmenents.get(position);
             }
 
             @Override
             public int getCount() {
-                return NUM_VIEWS;
+                return fragmenents.size();
             }
 
             @Override
@@ -69,14 +67,18 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
                     return getResources().getString(R.string.addMode);
                 else
                     return getResources().getString(R.string.viewMode);
-                }
+            }
         });
         tl.setupWithViewPager(vp);
-        Log.v(TAG, getResources().getConfiguration().locale.toString());
+        //Log.v(TAG, getResources().getConfiguration().locale.toString());
         setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.tb));
-        Log.v(TAG, "Created");
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("viewpagerid" , vp.getId() );
+    }
 
     public static ArrayList<String> pairsToString(ArrayList<EngRusPair> pairsArray){
         ArrayList<String> res = new ArrayList<String>();
@@ -116,5 +118,11 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
     @Override
     public void onWordDelete(EngRusPair pair) {
         db.deleteItem(pair);
+    }
+
+    @Override
+    protected void onDestroy() {
+        vp.setAdapter(null);
+        super.onDestroy();
     }
 }

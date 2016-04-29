@@ -35,22 +35,24 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
     }
     AddFragment.OnWordsChangeListener onWordsChangeListener;
     OnWordDeleteListener onWordDeleteListener;
+    Activity mActivity;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.v(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.wordslist_fragment, container, false);
         mListView = (ListView)view.findViewById(R.id.wordsList);
         updateList();
         registerForContextMenu(mListView);
-        Log.v(TAG, "onCreateView");
+
         return view;
     }
 
 
     public void updateList(){
         pairs = MainActivity.getAllVocabularyPairs();
-        aa = new PairAdapter(getActivity(), android.R.layout.simple_list_item_2, pairs);
+        aa = new PairAdapter(mActivity, android.R.layout.simple_list_item_2, pairs);
         mListView.setAdapter(aa);
     }
 
@@ -85,6 +87,7 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
         super.onAttach(activity);
         onWordsChangeListener = (AddFragment.OnWordsChangeListener)activity;
         onWordDeleteListener = (OnWordDeleteListener)activity;
+        mActivity = activity;
         Log.v(TAG, "onAttach");
     }
 }
