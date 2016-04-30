@@ -82,12 +82,23 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
         return super.onContextItemSelected(item);
     }
 
-    @Override
+    /*@Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         onWordsChangeListener = (AddFragment.OnWordsChangeListener)activity;
         onWordDeleteListener = (OnWordDeleteListener)activity;
         mActivity = activity;
+        Log.v(TAG, "onAttach");
+    }*/
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Activity) {
+            onWordsChangeListener = (AddFragment.OnWordsChangeListener) context;
+            onWordDeleteListener = (OnWordDeleteListener) context;
+            mActivity = (Activity)context;
+        }
         Log.v(TAG, "onAttach");
     }
 }

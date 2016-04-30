@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        
         Log.v(TAG, "Created");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
