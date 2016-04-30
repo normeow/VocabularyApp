@@ -51,13 +51,22 @@ public class AddFragment extends android.support.v4.app.Fragment {
         rusEditText = (EditText)view.findViewById(R.id.rusWordEdiTxt);
         addBtn = (Button)view.findViewById(R.id.btnAddItem);
         clearBtn = (Button)view.findViewById(R.id.btnClear);
+        engEditText.setError(null);
+        rusEditText.setError(null);
+
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String eTxt = engEditText.getText().toString();
                 String rTxt = rusEditText.getText().toString();
-                if (!(rTxt.isEmpty() || eTxt.isEmpty())) {
+                if (rTxt.isEmpty() || eTxt.isEmpty()) {
+                    if (rTxt.isEmpty())
+                        rusEditText.setError(getResources().getString(R.string.error_field_required));
+                    if (eTxt.isEmpty())
+                        engEditText.setError(getResources().getString(R.string.error_field_required));
+                }
+                else {
                     EngRusPair engRusPair = new EngRusPair(eTxt, rTxt);
                     onItemAddListener.onItemAdd(engRusPair);
                     rusEditText.setText("");
@@ -65,9 +74,6 @@ public class AddFragment extends android.support.v4.app.Fragment {
                     Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.toast_added), Toast.LENGTH_SHORT);
                     toast.show();
                     onBtnAddClickListener.onWordsChanged();
-                } else {
-                    Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.toast_fill_both), Toast.LENGTH_LONG);
-                    toast.show();
                 }
             }
         });

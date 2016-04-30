@@ -14,5 +14,5 @@
     <string name="okBtn">OK</string>
     <string name="cancelBtn">Cancel</string>
     <string name="toast_added">New item successfully added</string>
-    <string name="toast_fill_both">Fill both fields</string>
+    <string name="error_field_required">The field is required</string>
 </resources>
