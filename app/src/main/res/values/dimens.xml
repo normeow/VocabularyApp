@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="btns_layout">58dp</dimen>
     <dimen name="btn">36dp</dimen>
+    <dimen name="listview_action_btns">36dp</dimen>
+    <dimen name="btn_margin">8dp</dimen>
 </resources>

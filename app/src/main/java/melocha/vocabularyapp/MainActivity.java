@@ -1,27 +1,23 @@
 package melocha.vocabularyapp;
 
-import android.content.res.Configuration;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Environment;
+import android.preference.DialogPreference;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.FrameLayout;
+import android.view.WindowManager;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements AddFragment.OnBtnWordsListListener, AddFragment.OnWordsChangeListener, EditFragmentDialog.EditDialogListener, AddFragment.OnItemAddListener, WordsListFragment.OnWordDeleteListener {
+public class MainActivity extends AppCompatActivity implements AddFragment.OnBtnWordsListListener, AddFragment.OnWordsChangeListener, EditFragmentDialog.EditDialogListener, AddFragment.OnItemAddListener, PairAdapter.ICallback {
     //todo поиск слов и сравнение в выпадающем листе
     private ArrayList<Fragment> fragmenents;
     private android.support.v4.app.FragmentManager fragmentManager;
@@ -39,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        
         Log.v(TAG, "Created");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -68,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
                     return getResources().getString(R.string.addMode);
                 else
                     return getResources().getString(R.string.viewMode);
+
             }
         });
         tl.setupWithViewPager(vp);
@@ -117,13 +113,43 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
     }
 
     @Override
-    public void onWordDelete(EngRusPair pair) {
-        db.deleteItem(pair);
-    }
-
-    @Override
     protected void onDestroy() {
         vp.setAdapter(null);
         super.onDestroy();
     }
+
+    @Override
+    public void onEditClick(EngRusPair pair) {
+        android.support.v4.app.DialogFragment dialog = EditFragmentDialog.newInstance(pair);
+        dialog.show(getSupportFragmentManager(), "editFragmentShow");
+    }
+
+    @Override
+    public void onDeleteClick(final EngRusPair pair) {
+        boolean deleted = false;
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.delete_item_titlt))
+                .setMessage(getResources().getString(R.string.delete_item_msg))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        db.deleteItem(pair);
+                        sayItemDeleted();
+                        wordsListFragment.updateList();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //do nothing
+                    }
+                })
+                .show();
+
+    }
+
+    private void sayItemDeleted(){
+            Toast toast = Toast.makeText(this, "Item successfully deleted", Toast.LENGTH_SHORT);
+    }
+
 }

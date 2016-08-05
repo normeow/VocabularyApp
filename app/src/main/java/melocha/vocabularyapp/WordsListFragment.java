@@ -30,11 +30,6 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
     private static final int MENU_DELETE = 0;
     private static final int MENU_EDIT = 1;
 
-    public interface OnWordDeleteListener{
-        void onWordDelete(EngRusPair pair);
-    }
-    AddFragment.OnWordsChangeListener onWordsChangeListener;
-    OnWordDeleteListener onWordDeleteListener;
     Activity mActivity;
 
     @Nullable
@@ -57,48 +52,12 @@ public class WordsListFragment extends android.support.v4.app.Fragment {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        menu.add(0, 0, 0, "Delete item");
-        menu.add(0, 1, 0, "Edit item");
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        int id = (int)(adapterContextMenuInfo.id);
-        switch (item.getItemId())
-        {
-            case MENU_DELETE:
-                onWordDeleteListener.onWordDelete(pairs.get(id));
-                updateList();
-                onWordsChangeListener.onWordsChanged();
-                break;
-            case MENU_EDIT:
-                android.support.v4.app.DialogFragment dialog = EditFragmentDialog.newInstance(pairs.get(id));
-                dialog.show(getFragmentManager(),"editFragmentShow");
-                updateList();
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    /*@Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        onWordsChangeListener = (AddFragment.OnWordsChangeListener)activity;
-        onWordDeleteListener = (OnWordDeleteListener)activity;
-        mActivity = activity;
-        Log.v(TAG, "onAttach");
-    }*/
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof Activity) {
-            onWordsChangeListener = (AddFragment.OnWordsChangeListener) context;
-            onWordDeleteListener = (OnWordDeleteListener) context;
             mActivity = (Activity)context;
         }
         Log.v(TAG, "onAttach");
     }
+
 }

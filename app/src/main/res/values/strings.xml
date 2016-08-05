@@ -15,4 +15,6 @@
     <string name="cancelBtn">Cancel</string>
     <string name="toast_added">New item successfully added</string>
     <string name="error_field_required">The field is required</string>
+    <string name="delete_item_titlt">Delete</string>
+    <string name="delete_item_msg">Are you sure you eant to delete item?</string>
 </resources>

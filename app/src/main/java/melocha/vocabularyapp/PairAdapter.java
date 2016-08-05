@@ -6,6 +6,8 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -14,19 +16,41 @@ import java.util.List;
  * Created by Tatiana on 19/04/2016.
  */
 public class PairAdapter extends ArrayAdapter<EngRusPair> {
+    public interface ICallback{
+        void onEditClick(EngRusPair pair);
+        void onDeleteClick(EngRusPair pair);
+    }
+    ICallback listener;
     private List<EngRusPair> pairs;
     public PairAdapter(Context context, int resource, List<EngRusPair> pairs) {
         super(context, resource, pairs);
+        listener = (ICallback)context;
+        this.pairs = pairs;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
        EngRusPair item = getItem(position);
-        // TODO: custom list item with edit and delete buttons coz' context menu is a bad idea
         if (convertView == null)
-            convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_2, null);
-        ((TextView)convertView.findViewById(android.R.id.text1)).setText(item.getEngWord());
-        ((TextView)convertView.findViewById(android.R.id.text2)).setText(item.getRusWord());
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, null);
+        ((TextView)convertView.findViewById(R.id.text1)).setText(item.getEngWord());
+        ((TextView)convertView.findViewById(R.id.text2)).setText(item.getRusWord());
+
+        ImageView delbtn = (ImageView)convertView.findViewById(R.id.del_imv);
+        ImageView editbtn = (ImageView)convertView.findViewById(R.id.editimv);
+        delbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onDeleteClick(pairs.get(position));
+            }
+        });
+
+        editbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onEditClick(pairs.get(position));
+            }
+        });
 
         return convertView;
     }
