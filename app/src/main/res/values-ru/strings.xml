@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Личный словарик</string>
     <string name="add_new_item">Добавьте новое слово</string>
     <string name="btn_add">Добавить</string>
     <string name="clear_edit_txt">Очистить</string>
@@ -16,4 +15,8 @@
     <string name="cancelBtn">Отмена</string>
     <string name="toast_added">Элемент усппешно добавлен</string>
     <string name="error_field_required">Это обязательное поле</string>
-    </resources>
+    <string name="delete_item_msg">Вы уверены, что хотите удалить слово?</string>
+    <string name="delete_item_titlt">Удалить</string>
+    <string name="toast_deleted">Слово успешно удалено</string>
+    <string name="toast_edited">Слово успешно отредактировано</string>
+</resources>

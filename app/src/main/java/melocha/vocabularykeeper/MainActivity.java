@@ -14,10 +14,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements AddFragment.OnBtnWordsListListener, AddFragment.OnWordsChangeListener, EditFragmentDialog.EditDialogListener, AddFragment.OnItemAddListener, PairAdapter.ICallback {
-    //todo поиск слов и сравнение в выпадающем листе
+public class MainActivity extends AppCompatActivity implements AddFragment.OnWordsChangeListener, EditFragmentDialog.EditDialogListener, AddFragment.OnItemAddListener, PairAdapter.ICallback {
+
     private ArrayList<Fragment> fragmenents;
-    private android.support.v4.app.FragmentManager fragmentManager;
     private static MySQLHelper db;
     private TabLayout tl;
     private ViewPager vp;
@@ -83,10 +82,6 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
     }
 
     @Override
-    public void onBtnWordsListClick() {
-    }
-
-    @Override
     public void onWordsChanged() {
         wordsListFragment.updateList();
     }
@@ -95,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
     public void onDialogPositiveClick(EngRusPair pair) {
         db.updateRusEngPair(pair);
         onWordsChanged();
-        Toast toast = Toast.makeText(this, "Item successfully edited", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, getResources().getString(R.string.toast_edited), Toast.LENGTH_SHORT);
         toast.show();
     }
 
@@ -146,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnBtn
     }
 
     private void sayItemDeleted(){
-            Toast toast = Toast.makeText(this, "Item successfully deleted", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, getResources().getString(R.string.toast_deleted), Toast.LENGTH_SHORT);
     }
 
 }

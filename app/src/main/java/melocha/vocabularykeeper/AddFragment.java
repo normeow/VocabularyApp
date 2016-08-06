@@ -1,6 +1,7 @@
 package melocha.vocabularykeeper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,16 +14,10 @@ import android.widget.Toast;
 public class AddFragment extends android.support.v4.app.Fragment {
 
     private static final String TAG = "AddFragment";
-    private static final String ENG_KEY = "eng";
-    private static final String RUS_KEY = "rus";
-    public interface OnBtnWordsListListener{
-        void onBtnWordsListClick();
-    }
 
     public  interface OnWordsChangeListener {
         void onWordsChanged();
     }
-
 
     public interface OnItemAddListener{
         void onItemAdd(EngRusPair pair);
@@ -33,7 +28,6 @@ public class AddFragment extends android.support.v4.app.Fragment {
     private EditText engEditText;
     private EditText rusEditText;
 
-    OnBtnWordsListListener onBtnWordsListListener;
     OnWordsChangeListener onBtnAddClickListener;
     OnItemAddListener onItemAddListener;
 
@@ -88,15 +82,11 @@ public class AddFragment extends android.support.v4.app.Fragment {
         return view;
     }
 
-
-
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        onBtnWordsListListener = (OnBtnWordsListListener)activity;
-        onBtnAddClickListener = (OnWordsChangeListener)activity;
-        onItemAddListener = (OnItemAddListener)activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        onBtnAddClickListener = (OnWordsChangeListener)context;
+        onItemAddListener = (OnItemAddListener)context;
         Log.v(TAG, "onAttach");
     }
-
 }

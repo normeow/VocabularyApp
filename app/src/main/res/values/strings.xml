@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Vocabulary Keeper</string>
+    <string name="app_name" translatable="false">Vocabulary Keeper</string>
     <string name="add_new_item">Add new Item</string>
     <string name="btn_add">Add</string>
     <string name="clear_edit_txt">Clear</string>
@@ -16,5 +16,7 @@
     <string name="toast_added">New item successfully added</string>
     <string name="error_field_required">The field is required</string>
     <string name="delete_item_titlt">Delete</string>
-    <string name="delete_item_msg">Are you sure you eant to delete item?</string>
+    <string name="delete_item_msg">Are you sure you want to delete item?</string>
+    <string name="toast_edited">Item successfully edited</string>
+    <string name="toast_deleted">Item successfully deleted</string>
 </resources>
