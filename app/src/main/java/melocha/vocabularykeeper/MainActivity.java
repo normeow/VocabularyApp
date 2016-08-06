@@ -1,9 +1,7 @@
-package melocha.vocabularyapp;
+package melocha.vocabularykeeper;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Environment;
-import android.preference.DialogPreference;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;

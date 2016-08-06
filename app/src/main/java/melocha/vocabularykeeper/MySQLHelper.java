@@ -1,4 +1,4 @@
-package melocha.vocabularyapp;
+package melocha.vocabularykeeper;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

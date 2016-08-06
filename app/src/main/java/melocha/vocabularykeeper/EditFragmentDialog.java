@@ -1,4 +1,4 @@
-package melocha.vocabularyapp;
+package melocha.vocabularykeeper;
 
 import android.app.Activity;
 import android.app.AlertDialog;
