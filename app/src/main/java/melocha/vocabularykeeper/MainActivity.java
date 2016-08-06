@@ -119,29 +119,20 @@ public class MainActivity extends AppCompatActivity implements AddFragment.OnWor
     @Override
     public void onDeleteClick(final EngRusPair pair) {
         boolean deleted = false;
-        new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.delete_item_titlt))
                 .setMessage(getResources().getString(R.string.delete_item_msg))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         db.deleteItem(pair);
-                        sayItemDeleted();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_deleted), Toast.LENGTH_SHORT).show();
                         wordsListFragment.updateList();
                     }
                 })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //do nothing
-                    }
-                })
+                .setNegativeButton(android.R.string.no, null)
                 .show();
 
-    }
-
-    private void sayItemDeleted(){
-            Toast toast = Toast.makeText(this, getResources().getString(R.string.toast_deleted), Toast.LENGTH_SHORT);
     }
 
 }
